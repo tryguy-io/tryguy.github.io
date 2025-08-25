@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/styles.css?v=portal-2" />
+  <link rel="stylesheet" href="assets/styles.css?v=portal-RM-swirl" />
   <link rel="icon" href="assets/favicon.svg" />
 </head>
 <body>
@@ -76,7 +76,6 @@
       </div>
     </section>
 
-    <!-- What I Do (portfolio) -->
     <section id="portfolio" class="section container">
       <div class="section-head">
         <h2>What I Do</h2>
@@ -156,14 +155,21 @@
     </div>
   </footer>
 
-  <!-- 🌀 Hidden portal Easter egg (shows only after typing SNAKE) -->
+  <!-- 🌀 Hidden Rick & Morty–style portal (only appears after SNAKE) -->
   <div id="portalEgg" hidden aria-hidden="true">
-    <div class="portal-wrap" aria-hidden="true">
-      <div class="portal halo"></div>
-      <div class="portal swirl"></div>
-      <div class="portal mist"></div>
-      <!-- Clickable center (no visible text) -->
-      <button id="portalCore" class="portal-core" aria-label="Enter portal"></button>
+    <!-- starfield canvas -->
+    <canvas id="starsCanvas" class="stars"></canvas>
+
+    <!-- portal -->
+    <div class="rm-wrap" aria-hidden="true">
+      <div class="rm-portal">
+        <span class="rm-layer rim"></span>
+        <span class="rm-layer swirl"></span>
+        <span class="rm-layer swirl2"></span>
+        <span class="rm-layer specks"></span>
+        <!-- Invisible, focusable core (no text) -->
+        <button id="portalCore" class="rm-core" aria-label="Enter portal"></button>
+      </div>
     </div>
   </div>
 
@@ -191,46 +197,70 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 🐍 Easter egg: type S N A K E (case-insensitive) to reveal the portal
+    // 🐍 SNAKE Easter egg → show portal (no text)
     (function () {
-      const egg  = document.getElementById('portalEgg');
+      const egg = document.getElementById('portalEgg');
       const core = document.getElementById('portalCore');
+      const canvas = document.getElementById('starsCanvas');
       const secret = 'snake';
       let buf = '';
 
+      // draw simple starfield when portal shows
+      function drawStars() {
+        const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        ctx.clearRect(0, 0, w, h);
+        const stars = Math.floor((w * h) / 2500); // density
+        for (let i = 0; i < stars; i++) {
+          const x = Math.random() * w;
+          const y = Math.random() * h;
+          const r = Math.random() * 1.2 + 0.3;
+          ctx.fillStyle = `rgba(255,255,255,${0.6 + Math.random() * 0.4})`;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Reveal portal overlay
+      function showPortal() {
+        egg.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        drawStars();
+        core.focus({ preventScroll: true });
+      }
+
+      // Secret sequence listener
       window.addEventListener('keydown', (e) => {
-        // Don’t intercept form inputs
         const tag = (e.target && e.target.tagName || '').toLowerCase();
         if (['input','textarea','select'].includes(tag)) return;
 
         const k = (e.key || '').toLowerCase();
-        if (k.length !== 1 || !/[a-z0-9]/.test(k)) return;
+        if (!/^[a-z0-9]$/.test(k)) return;
         buf = (buf + k).slice(-secret.length);
-        if (buf === secret) {
-          showPortal();
-        }
+        if (buf === secret) showPortal();
       });
 
-      function showPortal() {
-        // reveal overlay
-        egg.hidden = false;
-        document.documentElement.style.overflow = 'hidden';
-        // focus invisible button for accessibility (no visible text)
-        core.focus({ preventScroll: true });
-      }
-
-      // Click the center of the portal to teleport
+      // Clicking portal center → teleport
       core.addEventListener('click', () => {
         document.documentElement.style.overflow = '';
         window.location.href = '/TheSnake/';
       });
 
-      // Optional: Esc cancels the portal (keeps UX friendly)
+      // Optional: allow Esc to dismiss
       window.addEventListener('keydown', (e) => {
         if (!egg.hidden && e.key === 'Escape') {
           egg.hidden = true;
           document.documentElement.style.overflow = '';
         }
+      });
+
+      // Keep starfield responsive while overlay is open
+      window.addEventListener('resize', () => {
+        if (!egg.hidden) drawStars();
       });
     })();
   </script>
