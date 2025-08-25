@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/styles.css?v=3" />
+  <link rel="stylesheet" href="assets/styles.css?v=teleport-1" />
   <link rel="icon" href="assets/favicon.svg" />
 </head>
 <body>
@@ -76,7 +76,7 @@
       </div>
     </section>
 
-    <!-- What I Do (replaces Projects) -->
+    <!-- What I Do (portfolio) -->
     <section id="portfolio" class="section container">
       <div class="section-head">
         <h2>What I Do</h2>
@@ -143,8 +143,7 @@
         <a class="btn btn-primary" href="mailto:veerkalantri1@gmail.com">Email me</a>
         <div class="socials">
           <a href="https://github.com/mads5" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://www.linkedin.com/in/veerkalantri" target="_blank" rel="noopener">LinkedIn</a>
-          <!-- Add your handle above when ready -->
+          <a href="https://www.linkedin.com/in/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </section>
@@ -156,6 +155,14 @@
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
     </div>
   </footer>
+
+  <!-- 🔮 Teleport overlay (hidden until Easter egg fires) -->
+  <div id="teleport" hidden aria-hidden="true">
+    <div class="tp-scene">
+      <div class="tp-portal"></div>
+      <p class="tp-caption" aria-live="polite">Teleporting to Snake…</p>
+    </div>
+  </div>
 
   <script>
     // Mobile menu
@@ -180,76 +187,31 @@
 
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 🔐 Easter egg: type S N A K E to teleport to /TheSnake/
+    (function() {
+      const tp = document.getElementById('teleport');
+      let buffer = '';
+      window.addEventListener('keydown', (e) => {
+        const tag = (e.target && e.target.tagName || '').toLowerCase();
+        if (['input','textarea','select'].includes(tag)) return;
+
+        const k = (e.key || '').toLowerCase();
+        if (k.length !== 1 || !/[a-z0-9]/.test(k)) return; // only chars/digits
+        buffer = (buffer + k).slice(-5);                   // keep last 5 keys
+        if (buffer === 'snake') {
+          // Show overlay + lock scroll
+          tp.hidden = false;
+          document.documentElement.style.overflow = 'hidden';
+
+          const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 1200;
+          setTimeout(() => {
+            document.documentElement.style.overflow = '';
+            window.location.href = '/TheSnake/';
+          }, delay);
+        }
+      });
+    })();
   </script>
-  <!-- 🔒 Secret Snake modal (hidden until Easter egg fires) -->
-<dialog id="snakeModal" aria-label="Play Snake">
-  <button id="snakeClose" style="position:absolute;right:.75rem;top:.5rem;">✕</button>
-  <div style="min-width:min(92vw,900px);min-height:min(80vh,680px);display:grid;place-items:center;background:var(--bg-soft,#0b1020);border-radius:12px;overflow:hidden">
-    <div id="snakeHolder" style="width:100%;height:100%;display:grid;place-items:center;padding:0;background:#000">
-      <!-- We inject the iframe src only when opening -->
-      <iframe id="snakeFrame"
-              title="Snake Game"
-              src=""
-              loading="lazy"
-              allow="fullscreen"
-              style="border:0;width:100%;height:100%;display:none;"></iframe>
-      <div id="snakeLoading" style="color:#fff;font:600 1rem/1.2 system-ui, sans-serif;opacity:.85">
-        Loading Snake…
-      </div>
-      <a id="snakeLink" href="/TheSnake/" target="_blank" rel="noopener"
-         style="position:absolute;left:.75rem;bottom:.6rem;color:#9ae6b4;text-decoration:none">
-        Open in new tab ↗
-      </a>
-    </div>
-  </div>
-<script>
-(() => {
-  // 5-key Easter egg sequence: S N A K E
-  const target = ['s','n','a','k','e'];
-  const buf = [];
-  const tp   = document.getElementById('teleport');
-  let armed = true;
-
-  window.addEventListener('keydown', (e) => {
-    if (!armed) return;
-    const tag = (e.target && e.target.tagName || '').toLowerCase();
-    if (['input','textarea','select'].includes(tag)) return;
-
-    buf.push((e.key || '').toLowerCase());
-    if (buf.length > target.length) buf.shift();
-
-    if (buf.join('') === target.join('')) {
-      armed = false;
-      startTeleport();
-    }
-  });
-
-  function startTeleport() {
-    // Show overlay, lock scroll & focus visually
-    tp.hidden = false;
-    document.documentElement.style.overflow = 'hidden';
-
-    // After the animation window, jump to the game
-    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 1200;
-    setTimeout(() => {
-      // tidy up just in case they navigate back
-      document.documentElement.style.overflow = '';
-      // go!
-      window.location.href = '/TheSnake/';
-    }, delay);
-  }
-})();
-</script>
-
-
-<!-- 🔮 Teleport overlay (hidden until Easter egg fires) -->
-<div id="teleport" hidden aria-hidden="true">
-  <div class="tp-scene">
-    <div class="tp-portal"></div>
-    <p class="tp-caption" aria-live="polite">Teleporting to Snake…</p>
-  </div>
-</div>
 </body>
 </html>
-
-
