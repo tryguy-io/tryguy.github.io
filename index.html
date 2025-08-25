@@ -143,7 +143,7 @@
         <a class="btn btn-primary" href="mailto:veerkalantri1@gmail.com">Email me</a>
         <div class="socials">
           <a href="https://github.com/mads5" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://www.linkedin.com/in/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/veerkalantri" target="_blank" rel="noopener">LinkedIn</a>
           <!-- Add your handle above when ready -->
         </div>
       </div>
@@ -206,62 +206,80 @@
 
 <script>
 (() => {
-  // --- 5-key Easter egg: S N A K E ---
   const target = ['s','n','a','k','e'];
-  const buffer = [];
-  let armed = true; // simple guard so we don't reopen repeatedly
-
-  // Elements
+  const buf = [];
   const dlg   = document.getElementById('snakeModal');
   const frame = document.getElementById('snakeFrame');
   const load  = document.getElementById('snakeLoading');
-  const close = document.getElementById('snakeClose');
+  const x1    = document.getElementById('snakeClose');
+  const x2    = document.getElementById('snakeClose2');
+  const fsBtn = document.getElementById('snakeFS');
 
-  // Key listener: prefer 'keydown' and event.key (not deprecated keyCode)
-  // https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
-  // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+  // Open when user types S N A K E (not inside inputs)
   window.addEventListener('keydown', (e) => {
-    // ignore if user is typing in an input/textarea/select or the dialog is already open
-    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
-    if (['input','textarea','select'].includes(tag) || dlg.open === true) return;
+    const tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (['input','textarea','select'].includes(tag) || dlg.open) return;
 
-    buffer.push((e.key || '').toLowerCase());
-    if (buffer.length > target.length) buffer.shift();
-
-    if (armed && buffer.join('') === target.join('')) {
-      openSnake();
-      armed = false; // prevent multiple auto-opens; you can remove if you want repeats
-    }
+    buf.push((e.key || '').toLowerCase());
+    if (buf.length > target.length) buf.shift();
+    if (buf.join('') === target.join('')) openSnake();
   });
 
   function openSnake() {
-    // Fill iframe src only now to keep homepage fast (lazy/on-demand)
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe
-    if (!frame.src) frame.src = '/TheSnake/';
+    if (!frame.src) frame.src = '/TheSnake/';      // lazy-load on demand
+    dlg.showModal();                                // accessible modal focus trap
+    load.hidden = false;
+    frame.hidden = true;
 
-    // Show modal (focus is trapped by native <dialog> behavior)
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal
-    dlg.showModal();
-
-    // Reveal iframe after it loads; keep a friendly loading text meanwhile
-    const onload = () => {
-      load.style.display = 'none';
-      frame.style.display = 'block';
+    const onload = () => {                          // swap loader → game once ready
+      load.hidden = true;
+      frame.hidden = false;
       frame.removeEventListener('load', onload);
     };
     frame.addEventListener('load', onload, { once: true });
   }
 
   function closeSnake() {
-    if (dlg.open) dlg.close();
-    // optional: keep iframe loaded for quick re-open. If you want to unload:
-    // frame.src = '';
+    if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+    dlg.close();
   }
 
-  close.addEventListener('click', closeSnake);
-  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeSnake(); }); // Esc key
+  // Fullscreen the iframe (same-origin OK)
+  fsBtn.addEventListener('click', () => {
+    if (frame.requestFullscreen) frame.requestFullscreen().catch(()=>{});
+  });
+
+  x1.addEventListener('click', closeSnake);
+  x2.addEventListener('click', closeSnake);
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeSnake(); }); // Esc to close
 })();
 </script>
+
+  <!-- 🔒 Secret Snake modal (improved UI) -->
+<dialog id="snakeModal" aria-labelledby="snakeTitle">
+  <div class="snake-shell">
+    <header class="snake-bar">
+      <h3 id="snakeTitle">Snake</h3>
+      <button id="snakeClose" class="snake-x" aria-label="Close">✕</button>
+    </header>
+
+    <div class="snake-stage">
+      <!-- Inject src only when opening -->
+      <iframe id="snakeFrame" title="Snake Game" src="" loading="lazy" allow="fullscreen"
+              class="snake-iframe" hidden></iframe>
+
+      <div id="snakeLoading" class="snake-loading">Loading Snake…</div>
+    </div>
+
+    <footer class="snake-cta">
+      <button id="snakeFS" class="btn btn-primary" type="button">Fullscreen</button>
+      <a class="btn" href="/TheSnake/" target="_blank" rel="noopener">Open in new tab ↗</a>
+      <button id="snakeClose2" class="btn btn-ghost" type="button">Close</button>
+    </footer>
+  </div>
+</dialog>
+
 </body>
 </html>
+
 
