@@ -181,5 +181,87 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+  <!-- 🔒 Secret Snake modal (hidden until Easter egg fires) -->
+<dialog id="snakeModal" aria-label="Play Snake">
+  <button id="snakeClose" style="position:absolute;right:.75rem;top:.5rem;">✕</button>
+  <div style="min-width:min(92vw,900px);min-height:min(80vh,680px);display:grid;place-items:center;background:var(--bg-soft,#0b1020);border-radius:12px;overflow:hidden">
+    <div id="snakeHolder" style="width:100%;height:100%;display:grid;place-items:center;padding:0;background:#000">
+      <!-- We inject the iframe src only when opening -->
+      <iframe id="snakeFrame"
+              title="Snake Game"
+              src=""
+              loading="lazy"
+              allow="fullscreen"
+              style="border:0;width:100%;height:100%;display:none;"></iframe>
+      <div id="snakeLoading" style="color:#fff;font:600 1rem/1.2 system-ui, sans-serif;opacity:.85">
+        Loading Snake…
+      </div>
+      <a id="snakeLink" href="/TheSnake/" target="_blank" rel="noopener"
+         style="position:absolute;left:.75rem;bottom:.6rem;color:#9ae6b4;text-decoration:none">
+        Open in new tab ↗
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  // --- 5-key Easter egg: S N A K E ---
+  const target = ['s','n','a','k','e'];
+  const buffer = [];
+  let armed = true; // simple guard so we don't reopen repeatedly
+
+  // Elements
+  const dlg   = document.getElementById('snakeModal');
+  const frame = document.getElementById('snakeFrame');
+  const load  = document.getElementById('snakeLoading');
+  const close = document.getElementById('snakeClose');
+
+  // Key listener: prefer 'keydown' and event.key (not deprecated keyCode)
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
+  // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+  window.addEventListener('keydown', (e) => {
+    // ignore if user is typing in an input/textarea/select or the dialog is already open
+    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+    if (['input','textarea','select'].includes(tag) || dlg.open === true) return;
+
+    buffer.push((e.key || '').toLowerCase());
+    if (buffer.length > target.length) buffer.shift();
+
+    if (armed && buffer.join('') === target.join('')) {
+      openSnake();
+      armed = false; // prevent multiple auto-opens; you can remove if you want repeats
+    }
+  });
+
+  function openSnake() {
+    // Fill iframe src only now to keep homepage fast (lazy/on-demand)
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe
+    if (!frame.src) frame.src = '/TheSnake/';
+
+    // Show modal (focus is trapped by native <dialog> behavior)
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal
+    dlg.showModal();
+
+    // Reveal iframe after it loads; keep a friendly loading text meanwhile
+    const onload = () => {
+      load.style.display = 'none';
+      frame.style.display = 'block';
+      frame.removeEventListener('load', onload);
+    };
+    frame.addEventListener('load', onload, { once: true });
+  }
+
+  function closeSnake() {
+    if (dlg.open) dlg.close();
+    // optional: keep iframe loaded for quick re-open. If you want to unload:
+    // frame.src = '';
+  }
+
+  close.addEventListener('click', closeSnake);
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeSnake(); }); // Esc key
+})();
+</script>
 </body>
 </html>
+
