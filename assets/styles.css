@@ -6,6 +6,10 @@
   --card: #121935;
   --accent: #5eead4;   /* teal accent */
   --accent-2: #a78bfa; /* soft purple */
+  --rm-green-1: #32ff7e;
+  --rm-green-2: #22ff66;
+  --rm-green-3: #12f256;
+  --rm-green-4: #7dffb3;
   --border: #1e2647;
   --shadow: 0 10px 30px rgba(0,0,0,.25);
 }
@@ -37,10 +41,7 @@ body {
 }
 .skip-link:focus { position: static; width: auto; height: auto; padding: .5rem 1rem; background: var(--accent); color: #000; }
 
-.container {
-  width: min(1080px, 92%);
-  margin: 0 auto;
-}
+.container { width: min(1080px, 92%); margin: 0 auto; }
 
 .site-header {
   background:
@@ -50,180 +51,162 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-.nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 0;
-}
-.brand {
-  font-weight: 800; letter-spacing: .5px; text-decoration: none; color: var(--text);
-}
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+.brand { font-weight: 800; letter-spacing: .5px; text-decoration: none; color: var(--text); }
 .brand span { color: var(--accent); }
-.menu {
-  list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0;
-}
+.menu { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; }
 .menu a { color: var(--text-dim); text-decoration: none; padding: .5rem .75rem; border-radius: .5rem; }
 .menu a:hover { color: var(--text); background: rgba(255,255,255,.06); }
-.nav-toggle {
-  display: none; background: none; border: 1px solid var(--border); color: var(--text);
-  padding: .5rem .75rem; border-radius: .5rem;
-}
+.nav-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--text); padding: .5rem .75rem; border-radius: .5rem; }
 
-.hero {
-  display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; padding: 4rem 0 3rem;
-  position: relative; isolation: isolate;
-}
-.hero-text h1 {
-  font-size: clamp(2rem, 2.5vw + 1rem, 3rem);
-  line-height: 1.15; margin: 0 0 1rem;
-}
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; padding: 4rem 0 3rem; position: relative; isolation: isolate; }
+.hero-text h1 { font-size: clamp(2rem, 2.5vw + 1rem, 3rem); line-height: 1.15; margin: 0 0 1rem; }
 .lead { color: var(--text-dim); max-width: 65ch; }
-.gradient-text {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
+.gradient-text { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .cta { display: flex; gap: .75rem; margin-top: 1.25rem; }
 
 .hero-art { position: relative; min-height: 260px; }
-.orb {
-  position: absolute; border-radius: 50%; filter: blur(40px); opacity: .75;
-}
+.orb { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .75; }
 .orb-1 { width: 220px; height: 220px; background: #6366f1; top: 20%; left: 5%; }
 .orb-2 { width: 160px; height: 160px; background: #22d3ee; top: 50%; right: 5%; }
 .orb-3 { width: 120px; height: 120px; background: #a78bfa; bottom: 0; left: 35%; }
 
+/* Sections */
 .section { padding: 3rem 0; }
 .section-head h2 { margin: 0 0 .25rem; font-size: 1.75rem; }
 .section-head p { margin: 0; color: var(--text-dim); }
 
-.about-grid {
-  display: grid; gap: 1rem; margin-top: 1.5rem;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-}
-.about-card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-  padding: 1.25rem; box-shadow: var(--shadow);
-}
+.about-grid { display: grid; gap: 1rem; margin-top: 1.5rem; grid-template-columns: repeat(3, minmax(0,1fr)); }
+.about-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow); }
 
-/* Reused grid for "What I Do" cards */
-.projects-grid {
-  margin-top: 1.5rem;
-  display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem;
-}
-.card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem;
-  box-shadow: var(--shadow); display: flex; flex-direction: column; gap: .75rem;
-}
+/* What I Do cards */
+.projects-grid { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: .75rem; }
 .card h3 { margin: 0; }
 .card p { margin: 0; color: var(--text-dim); }
 .card .meta { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: .25rem 0 0; }
 .card .meta li { font-size: .85rem; padding: .2rem .5rem; border: 1px solid var(--border); border-radius: 999px; }
 
-.skills {
-  display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none;
-}
-.skills li {
-  background: var(--card); border: 1px solid var(--border); border-radius: 999px;
-  padding: .5rem .75rem; box-shadow: var(--shadow);
-}
+/* Skills */
+.skills { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.skills li { background: var(--card); border: 1px solid var(--border); border-radius: 999px; padding: .5rem .75rem; box-shadow: var(--shadow); }
 .skills span { color: var(--text); font-weight: 600; }
 
+/* Misc */
 .contact { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
 .socials a { color: var(--text-dim); margin-right: .75rem; text-decoration: none; }
 .socials a:hover { color: var(--text); }
-
-.btn {
-  border: 1px solid var(--border); border-radius: 10px; padding: .6rem 1rem; text-decoration: none;
-  color: var(--text); display: inline-block;
-}
+.btn { border: 1px solid var(--border); border-radius: 10px; padding: .6rem 1rem; text-decoration: none; color: var(--text); display: inline-block; }
 .btn:hover { background: rgba(255,255,255,.06); }
-.btn-primary {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  color: #0b1020; border: none; font-weight: 700;
-}
+.btn-primary { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #0b1020; border: none; font-weight: 700; }
 .btn-ghost { background: transparent; }
 
 .site-footer { border-top: 1px solid var(--border); background: var(--bg-soft); }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
-.theme-toggle {
-  background: transparent; border: 1px solid var(--border); color: var(--text);
-  padding: .5rem .75rem; border-radius: .5rem; cursor: pointer;
-}
+.theme-toggle { background: transparent; border: 1px solid var(--border); color: var(--text); padding: .5rem .75rem; border-radius: .5rem; cursor: pointer; }
 
 /* ——— Portal Easter egg (hidden by default) ——— */
 #portalEgg[hidden] { display: none !important; }
 #portalEgg {
   position: fixed; inset: 0; z-index: 9999;
   display: grid; place-items: center;
-  background: radial-gradient(1200px 800px at 50% 50%, rgba(5,10,20,.72), rgba(3,6,12,.92));
-  backdrop-filter: blur(2px);
+  background: #000; /* starfield is drawn on canvas */
 }
-.portal-wrap {
-  position: relative;
-  width: min(86vw, 640px);
-  aspect-ratio: 1/1;
-  display: grid;
-  place-items: center;
-  filter: saturate(1.15);
+.stars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* Wrap to center the portal and allow ellipse shape */
+.rm-wrap {
+  position: relative; width: min(76vmin, 620px); aspect-ratio: 5/7;
+  display: grid; place-items: center;
+  filter: saturate(1.2);
 }
 
-/* layers */
-.portal { position: absolute; inset: 0; border-radius: 50%; }
-.portal.halo {
+/* PORTAL BODY (ellipse) */
+.rm-portal { position: relative; width: 100%; height: 100%; transform: rotate(-2deg); }
+
+/* 1) outer glowing rim (irregular) */
+.rm-layer.rim {
+  position: absolute; inset: 0;
+  border-radius: 50% / 45%;
   background:
-    radial-gradient(closest-side, rgba(18,242,86,.25), transparent 60%),
-    radial-gradient(closest-side, rgba(35,255,148,.18), transparent 70%);
+    radial-gradient(50% 60% at 50% 50%, rgba(18,242,86,.32), rgba(18,242,86,0) 60%),
+    repeating-conic-gradient(from 0deg,
+      rgba(50,255,126,.85) 0 6deg, rgba(50,255,126,.55) 6deg 12deg,
+      rgba(50,255,126,.85) 12deg 20deg, rgba(50,255,126,.55) 20deg 26deg);
+  filter: blur(3px);
   box-shadow:
-    0 0 60px rgba(35,255,148,.35),
-    0 0 120px rgba(20,255,120,.22) inset;
-  animation: halo-pulse 1600ms ease-in-out infinite;
+    0 0 55px rgba(49,255,137,.35),
+    inset 0 0 90px rgba(49,255,137,.28);
+  animation: rim-wobble 2200ms ease-in-out infinite;
 }
-.portal.swirl {
+
+/* 2) main swirling mass */
+.rm-layer.swirl {
+  position: absolute; inset: 8%;
+  border-radius: 50% / 45%;
   background:
     conic-gradient(from 0deg,
-      #a3ff6a, #6cff5f, #35ff76, #31fca7, #6bffc1, #a3ff6a);
+      var(--rm-green-1), var(--rm-green-2), var(--rm-green-3),
+      var(--rm-green-4), var(--rm-green-2), var(--rm-green-1));
   mix-blend-mode: screen;
-  filter: blur(6px);
-  animation: swirl-spin 1400ms linear infinite;
-}
-.portal.mist {
-  background:
-    radial-gradient(closest-side, rgba(255,255,255,.08), transparent 65%),
-    radial-gradient(closest-side, rgba(0,0,0,.25), transparent 70%);
-  filter: blur(10px);
-  animation: mist-breathe 2200ms ease-in-out infinite;
+  filter: blur(6px) contrast(1.05);
+  animation: swirl-spin 1600ms linear infinite;
 }
 
-/* clickable center */
-.portal-core {
-  position: relative;
-  z-index: 2;
-  width: 38%;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  border: none;
-  background: radial-gradient(closest-side, rgba(255,255,255,.22), rgba(255,255,255,.08) 60%, rgba(0,0,0,0) 62%);
+/* 3) counter-rotating inner swirl for depth */
+.rm-layer.swirl2 {
+  position: absolute; inset: 14%;
+  border-radius: 50% / 45%;
+  background:
+    conic-gradient(from 180deg,
+      var(--rm-green-2), var(--rm-green-3), var(--rm-green-1),
+      var(--rm-green-4), var(--rm-green-3), var(--rm-green-2));
+  mix-blend-mode: screen;
+  filter: blur(10px) brightness(1.05);
+  animation: swirl-spin 2400ms linear infinite reverse;
+}
+
+/* 4) little white specks inside the portal */
+.rm-layer.specks {
+  position: absolute; inset: 0; border-radius: 50% / 45%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 60% 25%, rgba(255,255,255,.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 80% 50%, rgba(255,255,255,.75) 0 1px, transparent 2px);
+  filter: blur(.3px);
+  animation: speck-drift 3200ms ease-in-out infinite;
+}
+
+/* click target (invisible core) */
+.rm-core {
+  position: absolute; z-index: 3; inset: 28% 26%;
+  border-radius: 50% / 45%;
+  border: none; background: radial-gradient(closest-side, rgba(0,0,0,.35), rgba(0,0,0,.05) 60%, rgba(0,0,0,0) 61%);
   cursor: pointer;
   box-shadow:
-    0 0 22px rgba(255,255,255,.25) inset,
-    0 0 36px rgba(35,255,148,.35),
-    0 0 120px rgba(35,255,148,.25);
+    inset 0 0 60px rgba(0,0,0,.35),
+    0 0 90px rgba(49,255,137,.25);
 }
-.portal-core:focus { outline: 2px solid rgba(163,255,106,.6); outline-offset: 4px; }
+.rm-core:focus { outline: 2px solid rgba(163,255,106,.6); outline-offset: 4px; }
 
-/* motion */
+/* Animations */
 @keyframes swirl-spin { to { transform: rotate(360deg); } }
-@keyframes mist-breathe {
-  0%,100% { transform: scale(1);   opacity: .85; }
-  50%     { transform: scale(1.04); opacity: 1;  }
+@keyframes rim-wobble {
+  0%,100% { transform: scale(1); filter: blur(3px); }
+  50% { transform: scale(1.02); filter: blur(3.6px); }
 }
-@keyframes halo-pulse {
-  0%,100% { box-shadow: 0 0 60px rgba(35,255,148,.35), 0 0 120px rgba(20,255,120,.22) inset; }
-  50%     { box-shadow: 0 0 70px rgba(35,255,148,.45), 0 0 160px rgba(20,255,120,.3) inset; }
+@keyframes speck-drift {
+  0%,100% { transform: translate(0,0) scale(1); opacity: .9; }
+  50%     { transform: translate(1px,-1px) scale(1.02); opacity: 1; }
 }
 
-/* Reduced motion: keep it calm */
+/* Reduced motion: gentle pulse only */
 @media (prefers-reduced-motion: reduce) {
-  .portal.halo, .portal.swirl, .portal.mist { animation: none; }
+  .rm-layer.swirl, .rm-layer.swirl2 { animation: none; }
+  .rm-layer.rim { animation: rim-wobble 3000ms ease-in-out infinite; }
 }
 
 /* Responsive */
