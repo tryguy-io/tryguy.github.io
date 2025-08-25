@@ -168,3 +168,62 @@ body {
   .nav-toggle { display: inline-block; }
   .projects-grid, .about-grid { grid-template-columns: 1fr; }
 }
+/* ——— Snake modal polish ——— */
+#snakeModal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: none; /* we'll size the shell inside */
+}
+#snakeModal::backdrop {            /* dim + slight blur for classier feel */
+  background: rgba(6, 11, 25, .65);
+  backdrop-filter: blur(2px);
+}
+
+.snake-shell {
+  width: min(96vw, 960px);
+  height: min(88vh, 720px);
+  background: #0b1020;
+  border: 1px solid var(--border, #1e2647);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+
+.snake-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .6rem .9rem; background: rgba(255,255,255,.04);
+  border-bottom: 1px solid var(--border, #1e2647);
+}
+.snake-bar h3 { margin: 0; font-size: 1rem; letter-spacing: .3px; color: var(--text, #e6e8ef); }
+.snake-x {
+  appearance: none; border: 1px solid var(--border, #1e2647); background: transparent; color: var(--text, #e6e8ef);
+  line-height: 1; padding: .35rem .5rem; border-radius: 8px; cursor: pointer;
+}
+.snake-x:hover { background: rgba(255,255,255,.06); }
+
+.snake-stage {
+  position: relative; background: #000; display: grid; place-items: center;
+}
+.snake-iframe {
+  width: 100%; height: 100%; border: 0; display: block;
+}
+.snake-loading {
+  color: #e6e8ef; opacity: .9; font-weight: 700;
+}
+
+.snake-cta {
+  display: flex; gap: .6rem; justify-content: flex-end;
+  padding: .7rem .9rem; border-top: 1px solid var(--border, #1e2647);
+  background: rgba(255,255,255,.04);
+}
+
+/* Reuse your existing button tokens */
+.btn { border: 1px solid var(--border); border-radius: 10px; padding: .5rem .9rem; text-decoration: none; color: var(--text); }
+.btn:hover { background: rgba(255,255,255,.06); }
+.btn-primary { background: linear-gradient(90deg, var(--accent, #5eead4), var(--accent-2, #a78bfa)); border: none; color: #0b1020; font-weight: 700; }
+.btn-ghost { background: transparent; }
+
+
