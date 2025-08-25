@@ -202,83 +202,53 @@
       </a>
     </div>
   </div>
-</dialog>
-
 <script>
 (() => {
+  // 5-key Easter egg sequence: S N A K E
   const target = ['s','n','a','k','e'];
   const buf = [];
-  const dlg   = document.getElementById('snakeModal');
-  const frame = document.getElementById('snakeFrame');
-  const load  = document.getElementById('snakeLoading');
-  const x1    = document.getElementById('snakeClose');
-  const x2    = document.getElementById('snakeClose2');
-  const fsBtn = document.getElementById('snakeFS');
+  const tp   = document.getElementById('teleport');
+  let armed = true;
 
-  // Open when user types S N A K E (not inside inputs)
   window.addEventListener('keydown', (e) => {
+    if (!armed) return;
     const tag = (e.target && e.target.tagName || '').toLowerCase();
-    if (['input','textarea','select'].includes(tag) || dlg.open) return;
+    if (['input','textarea','select'].includes(tag)) return;
 
     buf.push((e.key || '').toLowerCase());
     if (buf.length > target.length) buf.shift();
-    if (buf.join('') === target.join('')) openSnake();
+
+    if (buf.join('') === target.join('')) {
+      armed = false;
+      startTeleport();
+    }
   });
 
-  function openSnake() {
-    if (!frame.src) frame.src = '/TheSnake/';      // lazy-load on demand
-    dlg.showModal();                                // accessible modal focus trap
-    load.hidden = false;
-    frame.hidden = true;
+  function startTeleport() {
+    // Show overlay, lock scroll & focus visually
+    tp.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
 
-    const onload = () => {                          // swap loader → game once ready
-      load.hidden = true;
-      frame.hidden = false;
-      frame.removeEventListener('load', onload);
-    };
-    frame.addEventListener('load', onload, { once: true });
+    // After the animation window, jump to the game
+    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 1200;
+    setTimeout(() => {
+      // tidy up just in case they navigate back
+      document.documentElement.style.overflow = '';
+      // go!
+      window.location.href = '/TheSnake/';
+    }, delay);
   }
-
-  function closeSnake() {
-    if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-    dlg.close();
-  }
-
-  // Fullscreen the iframe (same-origin OK)
-  fsBtn.addEventListener('click', () => {
-    if (frame.requestFullscreen) frame.requestFullscreen().catch(()=>{});
-  });
-
-  x1.addEventListener('click', closeSnake);
-  x2.addEventListener('click', closeSnake);
-  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeSnake(); }); // Esc to close
 })();
 </script>
 
-  <!-- 🔒 Secret Snake modal (improved UI) -->
-<dialog id="snakeModal" aria-labelledby="snakeTitle">
-  <div class="snake-shell">
-    <header class="snake-bar">
-      <h3 id="snakeTitle">Snake</h3>
-      <button id="snakeClose" class="snake-x" aria-label="Close">✕</button>
-    </header>
 
-    <div class="snake-stage">
-      <!-- Inject src only when opening -->
-      <iframe id="snakeFrame" title="Snake Game" src="" loading="lazy" allow="fullscreen"
-              class="snake-iframe" hidden></iframe>
-
-      <div id="snakeLoading" class="snake-loading">Loading Snake…</div>
-    </div>
-
-    <footer class="snake-cta">
-      <button id="snakeFS" class="btn btn-primary" type="button">Fullscreen</button>
-      <a class="btn" href="/TheSnake/" target="_blank" rel="noopener">Open in new tab ↗</a>
-      <button id="snakeClose2" class="btn btn-ghost" type="button">Close</button>
-    </footer>
+<!-- 🔮 Teleport overlay (hidden until Easter egg fires) -->
+<div id="teleport" hidden aria-hidden="true">
+  <div class="tp-scene">
+    <div class="tp-portal"></div>
+    <p class="tp-caption" aria-live="polite">Teleporting to Snake…</p>
   </div>
-</dialog>
-
+</div>
 </body>
 </html>
 
