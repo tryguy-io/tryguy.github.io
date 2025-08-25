@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mads • Developer Portfolio</title>
+  <meta name="description" content="Mads — Developer & builder of ideas. Portfolio, skills, and ways to reach me." />
+  <meta name="theme-color" content="#0b1020" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mads • Developer Portfolio" />
+  <meta property="og:description" content="Portfolio, skills, and ways to reach me." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mads5.github.io" />
+  <meta property="og:image" content="assets/og-cover.png" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="assets/favicon.svg" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="brand" href="#top" aria-label="Home">Mads<span>•dev</span></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+      <ul id="menu" class="menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact" class="btn">Contact</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero container" id="top" role="banner">
+      <div class="hero-text">
+        <h1>Hi, I’m <span class="gradient-text">Mads</span> — I build clean, practical software.</h1>
+        <p class="lead">
+          I turn ideas into code: automation, web apps, and useful tools.
+          Explore what I do, my strengths, and how this site reflects my craft.
+        </p>
+        <div class="cta">
+          <a href="#portfolio" class="btn btn-primary">Explore Portfolio</a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+    </section>
+  </header>
+
+  <main id="main">
+    <section id="about" class="section container">
+      <div class="section-head">
+        <h2>About</h2>
+        <p>What I value and how I work</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>Builder mindset</h3>
+          <p>I ship fast, iterate, and keep things simple. I prefer solid fundamentals over flashy complexity.</p>
+        </div>
+        <div class="about-card">
+          <h3>Automation first</h3>
+          <p>From QA to data tasks, I automate repetitive work so I can focus on features that matter.</p>
+        </div>
+        <div class="about-card">
+          <h3>Clean UX</h3>
+          <p>Readable code and clear interfaces. If the user has to think twice, I fix it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Replaces Projects: What I Do (Portfolio) -->
+    <section id="portfolio" class="section container">
+      <div class="section-head">
+        <h2>What I Do</h2>
+        <p>A snapshot of how I apply my skills</p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="card">
+          <h3>Web Development</h3>
+          <p>I create responsive and modern websites that are simple, fast, and user-friendly.</p>
+          <ul class="meta">
+            <li>HTML/CSS</li><li>JavaScript</li><li>GitHub Pages</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Automation</h3>
+          <p>I build scripts and tools that automate repetitive workflows, saving time and effort.</p>
+          <ul class="meta">
+            <li>Python</li><li>Playwright</li><li>Selenium</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>AI & Data</h3>
+          <p>I experiment with AI and data analysis — from LLMs to analytics — blending tech with insights.</p>
+          <ul class="meta">
+            <li>FastAPI</li><li>Pandas</li><li>LLMs</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Portfolio</h3>
+          <p>This website itself showcases my design taste and frontend ability to deliver clean, cohesive work.</p>
+          <ul class="meta">
+            <li>Design</li><li>Frontend</li><li>Branding</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" class="section container">
+      <div class="section-head">
+        <h2>Skills</h2>
+        <p>Tools I use to get things done</p>
+      </div>
+      <ul class="skills">
+        <li><span>Python</span></li>
+        <li><span>Playwright</span></li>
+        <li><span>GitHub Actions</span></li>
+        <li><span>Docker</span></li>
+        <li><span>FastAPI</span></li>
+        <li><span>PostgreSQL</span></li>
+        <li><span>HTML/CSS/JS</span></li>
+      </ul>
+    </section>
+
+    <section id="contact" class="section container">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <p>Say hello or propose a project</p>
+      </div>
+      <div class="contact">
+        <a class="btn btn-primary" href="mailto:YOUR_EMAIL@example.com">Email me</a>
+        <div class="socials">
+          <a href="https://github.com/mads5" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/YOUR_HANDLE" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> Mads. Built with HTML & CSS.</small>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('menu');
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      menu.classList.toggle('open');
+    });
+
+    // Theme toggle
+    const key = 'prefers-theme';
+    const themeToggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem(key);
+    if (stored) document.documentElement.dataset.theme = stored;
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(key, next);
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
