@@ -4,7 +4,7 @@
   --text: #e6e8ef;
   --text-dim: #b8bfd6;
   --card: #121935;
-  --accent: #5eead4; /* teal accent */
+  --accent: #5eead4;   /* teal accent */
   --accent-2: #a78bfa; /* soft purple */
   --border: #1e2647;
   --shadow: 0 10px 30px rgba(0,0,0,.25);
@@ -104,6 +104,7 @@ body {
   padding: 1.25rem; box-shadow: var(--shadow);
 }
 
+/* Reused grid for "What I Do" cards */
 .projects-grid {
   margin-top: 1.5rem;
   display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem;
@@ -116,14 +117,6 @@ body {
 .card p { margin: 0; color: var(--text-dim); }
 .card .meta { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: .25rem 0 0; }
 .card .meta li { font-size: .85rem; padding: .2rem .5rem; border: 1px solid var(--border); border-radius: 999px; }
-.card-actions { margin-top: auto; display: flex; gap: .75rem; }
-.card-badge {
-  align-self: flex-start; font-size: .75rem; padding: .2rem .5rem; border-radius: 6px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #0b1020; font-weight: 700;
-}
-.link { color: var(--accent); text-decoration: none; }
-.link:hover { text-decoration: underline; }
-.link.disabled { opacity: .5; pointer-events: none; }
 
 .skills {
   display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none;
@@ -156,18 +149,6 @@ body {
   padding: .5rem .75rem; border-radius: .5rem; cursor: pointer;
 }
 
-/* Responsive */
-@media (max-width: 980px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-art { order: -1; height: 200px; margin-bottom: .5rem; }
-  .projects-grid, .about-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 640px) {
-  .menu { display: none; }
-  .menu.open { display: flex; flex-direction: column; gap: .5rem; position: absolute; right: 4%; top: 64px; background: var(--bg-soft); border: 1px solid var(--border); padding: .75rem; border-radius: .75rem; }
-  .nav-toggle { display: inline-block; }
-  .projects-grid, .about-grid { grid-template-columns: 1fr; }
-}
 /* —— Teleport overlay —— */
 #teleport {
   position: fixed; inset: 0; z-index: 9999;
@@ -175,7 +156,6 @@ body {
   background: radial-gradient(1200px 800px at 50% 50%, rgba(10,15,31,.85), rgba(3,6,12,.98));
   backdrop-filter: blur(2px);
 }
-
 .tp-scene {
   position: relative; width: min(86vw, 720px); height: min(60vh, 480px);
   display: grid; place-items: center; overflow: hidden;
@@ -183,8 +163,6 @@ body {
   background: #03060c;
   box-shadow: 0 30px 80px rgba(0,0,0,.55), inset 0 0 120px rgba(99,102,241,.15);
 }
-
-/* swirling portal */
 .tp-portal, .tp-portal::before, .tp-portal::after {
   position: absolute; inset: -20%;
   border-radius: 50%;
@@ -208,35 +186,38 @@ body {
   mix-blend-mode: screen; opacity: .4;
   animation: tp-spin 1600ms linear infinite reverse;
 }
-
 .tp-caption {
   position: relative; z-index: 2;
   color: #e6e8ef; font-weight: 800; letter-spacing: .4px;
   text-shadow: 0 2px 12px rgba(0,0,0,.6);
   animation: tp-pulse 900ms ease-in-out infinite;
 }
-
-/* keyframes */
 @keyframes tp-grow {
   from { transform: scale(.05); opacity: .0; }
   40%  { transform: scale(.6);  opacity: .9; }
   to   { transform: scale(1.25); opacity: 1; }
 }
-@keyframes tp-spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes tp-spin { to { transform: rotate(360deg); } }
 @keyframes tp-pulse {
   0%,100% { opacity: .85; transform: translateY(0); }
   50%     { opacity: 1;    transform: translateY(-2px); }
 }
-
-/* Respect reduced motion: just fade to black */
+/* Reduced motion: fade to black */
 @media (prefers-reduced-motion: reduce) {
   .tp-portal, .tp-portal::before, .tp-portal::after { animation: none; }
   #teleport { background: #000; }
   .tp-caption { animation: none; }
 }
 
-
-
-
+/* Responsive */
+@media (max-width: 980px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-art { order: -1; height: 200px; margin-bottom: .5rem; }
+  .projects-grid, .about-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .menu { display: none; }
+  .menu.open { display: flex; flex-direction: column; gap: .5rem; position: absolute; right: 4%; top: 64px; background: var(--bg-soft); border: 1px solid var(--border); padding: .75rem; border-radius: .75rem; }
+  .nav-toggle { display: inline-block; }
+  .projects-grid, .about-grid { grid-template-columns: 1fr; }
+}
