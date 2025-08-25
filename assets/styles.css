@@ -149,64 +149,81 @@ body {
   padding: .5rem .75rem; border-radius: .5rem; cursor: pointer;
 }
 
-/* —— Teleport overlay —— */
-#teleport {
+/* ——— Portal Easter egg (hidden by default) ——— */
+#portalEgg[hidden] { display: none !important; }
+#portalEgg {
   position: fixed; inset: 0; z-index: 9999;
   display: grid; place-items: center;
-  background: radial-gradient(1200px 800px at 50% 50%, rgba(10,15,31,.85), rgba(3,6,12,.98));
+  background: radial-gradient(1200px 800px at 50% 50%, rgba(5,10,20,.72), rgba(3,6,12,.92));
   backdrop-filter: blur(2px);
 }
-.tp-scene {
-  position: relative; width: min(86vw, 720px); height: min(60vh, 480px);
-  display: grid; place-items: center; overflow: hidden;
-  border-radius: 24px; border: 1px solid var(--border, #1e2647);
-  background: #03060c;
-  box-shadow: 0 30px 80px rgba(0,0,0,.55), inset 0 0 120px rgba(99,102,241,.15);
+.portal-wrap {
+  position: relative;
+  width: min(86vw, 640px);
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  filter: saturate(1.15);
 }
-.tp-portal, .tp-portal::before, .tp-portal::after {
-  position: absolute; inset: -20%;
-  border-radius: 50%;
-  content: "";
-}
-.tp-portal {
+
+/* layers */
+.portal { position: absolute; inset: 0; border-radius: 50%; }
+.portal.halo {
   background:
-    radial-gradient(closest-side, rgba(34,211,238,.35), transparent 70%),
-    radial-gradient(closest-side, rgba(167,139,250,.25), transparent 75%),
-    radial-gradient(closest-side, rgba(99,102,241,.35), transparent 80%);
-  filter: blur(12px) saturate(1.1);
-  animation: tp-grow 1100ms ease-out forwards;
+    radial-gradient(closest-side, rgba(18,242,86,.25), transparent 60%),
+    radial-gradient(closest-side, rgba(35,255,148,.18), transparent 70%);
+  box-shadow:
+    0 0 60px rgba(35,255,148,.35),
+    0 0 120px rgba(20,255,120,.22) inset;
+  animation: halo-pulse 1600ms ease-in-out infinite;
 }
-.tp-portal::before {
-  background: conic-gradient(from 0deg, #5eead4, #a78bfa, #6366f1, #5eead4);
-  mix-blend-mode: screen; opacity: .6;
-  animation: tp-spin 1200ms linear infinite;
+.portal.swirl {
+  background:
+    conic-gradient(from 0deg,
+      #a3ff6a, #6cff5f, #35ff76, #31fca7, #6bffc1, #a3ff6a);
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  animation: swirl-spin 1400ms linear infinite;
 }
-.tp-portal::after {
-  background: conic-gradient(from 180deg, #a78bfa, #5eead4, #22d3ee, #a78bfa);
-  mix-blend-mode: screen; opacity: .4;
-  animation: tp-spin 1600ms linear infinite reverse;
+.portal.mist {
+  background:
+    radial-gradient(closest-side, rgba(255,255,255,.08), transparent 65%),
+    radial-gradient(closest-side, rgba(0,0,0,.25), transparent 70%);
+  filter: blur(10px);
+  animation: mist-breathe 2200ms ease-in-out infinite;
 }
-.tp-caption {
-  position: relative; z-index: 2;
-  color: #e6e8ef; font-weight: 800; letter-spacing: .4px;
-  text-shadow: 0 2px 12px rgba(0,0,0,.6);
-  animation: tp-pulse 900ms ease-in-out infinite;
+
+/* clickable center */
+.portal-core {
+  position: relative;
+  z-index: 2;
+  width: 38%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(closest-side, rgba(255,255,255,.22), rgba(255,255,255,.08) 60%, rgba(0,0,0,0) 62%);
+  cursor: pointer;
+  box-shadow:
+    0 0 22px rgba(255,255,255,.25) inset,
+    0 0 36px rgba(35,255,148,.35),
+    0 0 120px rgba(35,255,148,.25);
 }
-@keyframes tp-grow {
-  from { transform: scale(.05); opacity: .0; }
-  40%  { transform: scale(.6);  opacity: .9; }
-  to   { transform: scale(1.25); opacity: 1; }
+.portal-core:focus { outline: 2px solid rgba(163,255,106,.6); outline-offset: 4px; }
+
+/* motion */
+@keyframes swirl-spin { to { transform: rotate(360deg); } }
+@keyframes mist-breathe {
+  0%,100% { transform: scale(1);   opacity: .85; }
+  50%     { transform: scale(1.04); opacity: 1;  }
 }
-@keyframes tp-spin { to { transform: rotate(360deg); } }
-@keyframes tp-pulse {
-  0%,100% { opacity: .85; transform: translateY(0); }
-  50%     { opacity: 1;    transform: translateY(-2px); }
+@keyframes halo-pulse {
+  0%,100% { box-shadow: 0 0 60px rgba(35,255,148,.35), 0 0 120px rgba(20,255,120,.22) inset; }
+  50%     { box-shadow: 0 0 70px rgba(35,255,148,.45), 0 0 160px rgba(20,255,120,.3) inset; }
 }
-/* Reduced motion: fade to black */
+
+/* Reduced motion: keep it calm */
 @media (prefers-reduced-motion: reduce) {
-  .tp-portal, .tp-portal::before, .tp-portal::after { animation: none; }
-  #teleport { background: #000; }
-  .tp-caption { animation: none; }
+  .portal.halo, .portal.swirl, .portal.mist { animation: none; }
 }
 
 /* Responsive */
