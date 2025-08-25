@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/styles.css?v=teleport-1" />
+  <link rel="stylesheet" href="assets/styles.css?v=portal-2" />
   <link rel="icon" href="assets/favicon.svg" />
 </head>
 <body>
@@ -156,11 +156,14 @@
     </div>
   </footer>
 
-  <!-- 🔮 Teleport overlay (hidden until Easter egg fires) -->
-  <div id="teleport" hidden aria-hidden="true">
-    <div class="tp-scene">
-      <div class="tp-portal"></div>
-      <p class="tp-caption" aria-live="polite">Teleporting to Snake…</p>
+  <!-- 🌀 Hidden portal Easter egg (shows only after typing SNAKE) -->
+  <div id="portalEgg" hidden aria-hidden="true">
+    <div class="portal-wrap" aria-hidden="true">
+      <div class="portal halo"></div>
+      <div class="portal swirl"></div>
+      <div class="portal mist"></div>
+      <!-- Clickable center (no visible text) -->
+      <button id="portalCore" class="portal-core" aria-label="Enter portal"></button>
     </div>
   </div>
 
@@ -188,27 +191,45 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 🔐 Easter egg: type S N A K E to teleport to /TheSnake/
-    (function() {
-      const tp = document.getElementById('teleport');
-      let buffer = '';
+    // 🐍 Easter egg: type S N A K E (case-insensitive) to reveal the portal
+    (function () {
+      const egg  = document.getElementById('portalEgg');
+      const core = document.getElementById('portalCore');
+      const secret = 'snake';
+      let buf = '';
+
       window.addEventListener('keydown', (e) => {
+        // Don’t intercept form inputs
         const tag = (e.target && e.target.tagName || '').toLowerCase();
         if (['input','textarea','select'].includes(tag)) return;
 
         const k = (e.key || '').toLowerCase();
-        if (k.length !== 1 || !/[a-z0-9]/.test(k)) return; // only chars/digits
-        buffer = (buffer + k).slice(-5);                   // keep last 5 keys
-        if (buffer === 'snake') {
-          // Show overlay + lock scroll
-          tp.hidden = false;
-          document.documentElement.style.overflow = 'hidden';
+        if (k.length !== 1 || !/[a-z0-9]/.test(k)) return;
+        buf = (buf + k).slice(-secret.length);
+        if (buf === secret) {
+          showPortal();
+        }
+      });
 
-          const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 1200;
-          setTimeout(() => {
-            document.documentElement.style.overflow = '';
-            window.location.href = '/TheSnake/';
-          }, delay);
+      function showPortal() {
+        // reveal overlay
+        egg.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        // focus invisible button for accessibility (no visible text)
+        core.focus({ preventScroll: true });
+      }
+
+      // Click the center of the portal to teleport
+      core.addEventListener('click', () => {
+        document.documentElement.style.overflow = '';
+        window.location.href = '/TheSnake/';
+      });
+
+      // Optional: Esc cancels the portal (keeps UX friendly)
+      window.addEventListener('keydown', (e) => {
+        if (!egg.hidden && e.key === 'Escape') {
+          egg.hidden = true;
+          document.documentElement.style.overflow = '';
         }
       });
     })();
