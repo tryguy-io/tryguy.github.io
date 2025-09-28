@@ -1,6 +1,6 @@
-# Veer Kalantri (mads5) • Personal Website
+# Veer Kalantri (tryguy) • Personal Website
 
-This repository contains the source code for my personal portfolio website, hosted at **[veer.is-a.dev](https://veer.is-a.dev)**.  
+This repository contains the source code for my personal portfolio website, hosted at **[tryguy.is-a.dev](https://tryguy.is-a.dev)**.  
 It’s a space where I share a bit about myself, the projects I’ve built, and the technologies I enjoy working with.
 
 ---
@@ -34,7 +34,7 @@ It’s a space where I share a bit about myself, the projects I’ve built, and 
 ## 📂 Repository Layout
 # Veer Kalantri (mads5) • Personal Website
 
-This repository contains the source code for my personal portfolio website, hosted at **[veer.is-a.dev](https://veer.is-a.dev)**.  
+This repository contains the source code for my personal portfolio website, hosted at **[tryguy.is-a.dev](https://tryguy.is-a.dev)**.  
 It’s a space where I share a bit about myself, the projects I’ve built, and the technologies I enjoy working with.
 
 ---
